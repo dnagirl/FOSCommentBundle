@@ -30,7 +30,7 @@
                 {% elseif fos_comment_can_comment_thread(thread) %}
                     <div id="fos_comment_thread">
                         U dient ingelogd te zijn om in te kunnen reageren.
-                        {{ render(controller('GenjAuthenticationBundle:Login:index', { redirectBack: true })) }}
+                        {{ render(controller('GenjAuthenticationBundle:Login:index', { redirectBack: true, redirectAnchor: 'fos_comment_thread' })) }}
                     </div>
                 {% endif %}
 
