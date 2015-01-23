@@ -1,22 +1,40 @@
+<div id="comments" class="js-hidden">
+    <div class="grid-row centered">
+        <div class="grid-content">
+            <div id="fos_comment_thread" data-thread="{{ thread.id }}" class="grid-row">
 
-<div id="fos_comment_thread" data-thread="{{ thread.id }}" class="grid-row">
+                <h3 class="comment-title alt-title has-logo">
+                    {% if thread.numComments > 0 %}
+                        2 Reacties
+                        <a class="comments-react-trigger" href="#reaction-form">
+                            <i class="icon-comment"></i>Schrijf zelf een reactie
+                        </a>
+                    {% else %}
+                        <a class="comments-react-trigger" href="#reaction-form">
+                            <i class="icon-comment"></i>Reageer als eerste.
+                        </a>
+                    {% endif %}
+                </h3>
 
-    {% if fos_comment_can_comment_thread(thread) and is_granted('ROLE_USER') %}
-        {% render url("fos_comment_new_thread_comments", {"id": thread.id}) %}
-    {% elseif fos_comment_can_comment_thread(thread) %}
-        <div id="fos_comment_thread">
-            U dient ingelogd te zijn om in te kunnen reageren.
-            {{ render(controller('GenjAuthenticationBundle:Login:index', { redirectBack: true })) }}
+                <div class="comment_list">
+                    {% for commentObject in comments %}
+                        {% set comment = commentObject.comment %}
+
+                        {% include "FOSCommentBundle:Thread:comment_content.html.twig" %}
+
+                    {% endfor %}
+                </div>
+
+                {% if fos_comment_can_comment_thread(thread) and is_granted('ROLE_USER') %}
+                    {% render url("fos_comment_new_thread_comments", {"id": thread.id}) %}
+                {% elseif fos_comment_can_comment_thread(thread) %}
+                    <div id="fos_comment_thread">
+                        U dient ingelogd te zijn om in te kunnen reageren.
+                        {{ render(controller('GenjAuthenticationBundle:Login:index', { redirectBack: true })) }}
+                    </div>
+                {% endif %}
+
+            </div>
         </div>
-    {% endif %}
-
-    <div class="comment_list">
-        {% for commentObject in comments %}
-            {% set comment = commentObject.comment %}
-
-            {% include "FOSCommentBundle:Thread:comment_content.html.twig" %}
-
-        {% endfor %}
     </div>
-
 </div>
