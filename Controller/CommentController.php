@@ -15,6 +15,7 @@ use NGM\CommentBundle\Entity\Thread;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Bundle\FrameworkBundle\Templating\TemplateReference;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
@@ -45,6 +46,22 @@ class CommentController extends Controller
         return $this->render('FOSCommentBundle:Sync:comments.html.twig', array(
             'comments' => $comments,
             'thread' => $thread,
+        ));
+    }
+
+    public function showCountAction(Request $request)
+    {
+        $id = $request->get('id');
+
+//        /** @var Thread $thread */
+        $thread = $this->container->get('fos_comment.manager.thread')->findThreadById($id);
+
+        if (!$thread) {
+            return new Response();
+        }
+
+        return $this->render('FOSCommentBundle:Sync:comment_count.html.twig', array(
+            'commentCount' => $thread->getNumComments()
         ));
     }
 }
