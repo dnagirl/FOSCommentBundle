@@ -61,7 +61,7 @@ class CommentController extends Controller
         }
 
         return $this->render('FOSCommentBundle:Sync:comment_count.html.twig', array(
-            'commentCount' => $thread->getNumComments()
+            'comment_count' => $thread->getNumComments()
         ));
     }
 }
