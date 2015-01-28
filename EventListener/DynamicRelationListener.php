@@ -61,6 +61,10 @@ class DynamicRelationListener implements EventSubscriber
         // the $metadata is the whole mapping info for this class
         $metadata = $eventArgs->getClassMetadata();
 
+        if (!$metadata->getReflectionClass()) {
+            return;
+        }
+
         $properties = $this->getCommentableProperties($metadata->getReflectionClass());
 
         if (empty($properties)) {
@@ -102,7 +106,12 @@ class DynamicRelationListener implements EventSubscriber
         $om = $args->getObjectManager();
         $object = $args->getObject();
 
-        $properties = $this->getCommentableProperties(new \ReflectionClass($object));
+        $reflectionClass = new \ReflectionClass($object);
+
+        if (!$reflectionClass) {
+            return;
+        }
+        $properties = $this->getCommentableProperties($reflectionClass);
 
         if (empty($properties)) {
             return;
