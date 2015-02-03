@@ -34,6 +34,7 @@ class CommentType extends AbstractType
     {
         $builder->add('body', 'textarea');
         $builder->add('author', null, array('required' => true));
+        $builder->add('authorId', 'hidden', array('required' => false));
     }
 
     public function setDefaultOptions(OptionsResolverInterface $resolver)
