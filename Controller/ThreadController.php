@@ -194,6 +194,8 @@ class ThreadController extends Controller
      */
     public function newThreadCommentsAction($id)
     {
+        $redirectUri = $this->container->get('request')->get('redirectUri', false);
+
         $thread = $this->container->get('fos_comment.manager.thread')->findThreadById($id);
         if (!$thread) {
             throw new NotFoundHttpException(sprintf('Thread with identifier of "%s" does not exist', $id));
@@ -208,11 +210,12 @@ class ThreadController extends Controller
 
         $view = View::create()
             ->setData(array(
-                'form' => $form->createView(),
-                'first' => 0 === $thread->getNumComments(),
-                'thread' => $thread,
-                'parent' => $parent,
-                'id' => $id,
+                'form'        => $form->createView(),
+                'first'       => 0 === $thread->getNumComments(),
+                'thread'      => $thread,
+                'parent'      => $parent,
+                'id'          => $id,
+                'redirectUri' => $redirectUri
             ))
             ->setTemplate(new TemplateReference('FOSCommentBundle', 'Thread', 'comment_new'));
 

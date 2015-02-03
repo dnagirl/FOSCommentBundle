@@ -27,7 +27,8 @@ class CommentController extends Controller
 {
     public function showAction(Request $request)
     {
-        $id = $request->get('id');
+        $id          = $request->get('id');
+        $redirectUri = $request->get('redirectUri', false);
 
         /** @var Thread $thread */
         $thread = $this->container->get('fos_comment.manager.thread')->findThreadById($id);
@@ -44,8 +45,9 @@ class CommentController extends Controller
         $comments = $this->container->get('fos_comment.manager.comment')->findCommentTreeByThread($thread);
 
         return $this->render('FOSCommentBundle:Sync:comments.html.twig', array(
-            'comments' => $comments,
-            'thread' => $thread,
+            'comments'     => $comments,
+            'thread'       => $thread,
+            'redirect_uri' => $redirectUri
         ));
     }
 
